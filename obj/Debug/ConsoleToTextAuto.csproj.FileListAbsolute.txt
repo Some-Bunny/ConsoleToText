@@ -1,0 +1,7 @@
+C:\Users\Maxym\source\repos\ConsoleToText\bin\Debug\ConsoleToTextAuto.dll
+C:\Users\Maxym\source\repos\ConsoleToText\bin\Debug\ConsoleToTextAuto.pdb
+C:\Users\Maxym\source\repos\ConsoleToText\obj\Debug\ConsoleToTextAuto.csprojAssemblyReference.cache
+C:\Users\Maxym\source\repos\ConsoleToText\obj\Debug\ConsoleToTextAuto.csproj.CoreCompileInputs.cache
+C:\Users\Maxym\source\repos\ConsoleToText\obj\Debug\ConsoleToTextAuto.csproj.CopyComplete
+C:\Users\Maxym\source\repos\ConsoleToText\obj\Debug\ConsoleToTextAuto.dll
+C:\Users\Maxym\source\repos\ConsoleToText\obj\Debug\ConsoleToTextAuto.pdb

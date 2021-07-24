@@ -13,7 +13,7 @@ namespace ConsoleToTextAuto
     public class CTTModule : ETGModule
     {
         public static readonly string MOD_NAME = "Console To Text Mod (Code By NotABot!)";
-        public static readonly string VERSION = "1.0 (Automatic Version)";
+        public static readonly string VERSION = "1.1.1 (Automatic Version)";
         public static readonly string TEXT_COLOR = "#8e1cff";
 
         public static string defaultLog = Path.Combine(ETGMod.ResourcesDirectory, "ConsoleToTextAuto.txt");
@@ -24,8 +24,8 @@ namespace ConsoleToTextAuto
             if (File.Exists(defaultLog))
             {
                 File.Delete(defaultLog);
-                File.Create(defaultLog);
                 Log($"Deleting Old Auto C.T.T File from when previously used and creating new Auto C.T.T file.", TEXT_COLOR);
+                File.Create(defaultLog);
             }
             else if (!File.Exists(defaultLog))
             {
@@ -36,9 +36,10 @@ namespace ConsoleToTextAuto
             //ETGModConsole.Commands.AddUnit("print_debug_console", this.PrintDebugLog);
             //ETGModConsole.Commands.AddUnit("nulls_only_print_debug_console", this.PrintDebugLogNullOnly);
 
-              var HookToWriteLogToTxtFile = new Hook(
-                     typeof(GameManager).GetMethod("InvariantUpdate", BindingFlags.NonPublic | BindingFlags.Instance),
-                   typeof(DebugPrinter).GetMethod("LogHook", BindingFlags.Static | BindingFlags.Public));
+            Application.logMessageReceived += Application_logMessageReceived;
+           //   var HookToWriteLogToTxtFile = new Hook(
+             //        typeof(GameManager).GetMethod("InvariantUpdate", BindingFlags.NonPublic | BindingFlags.Instance),
+               //    typeof(DebugPrinter).GetMethod("LogHook", BindingFlags.Static | BindingFlags.Public));
 
 
             Log($"{MOD_NAME} v{VERSION} started successfully..", TEXT_COLOR);
@@ -46,6 +47,18 @@ namespace ConsoleToTextAuto
 
         }
 
+        //public static FileStream logfile = new FileStream(defaultLog, FileMode.Open, FileAccess.ReadWrite);
+        private void Application_logMessageReceived(string condition, string stackTrace, LogType type)
+        {
+            using (StreamWriter file2 = File.AppendText(defaultLog))
+            {
+                file2.WriteLine(condition);
+                if (type == LogType.Exception)
+                {
+                    file2.WriteLine("   " + stackTrace);
+                }
+            }
+        }
 
         public void PrintDebugLog(string[] args)
         {
@@ -77,9 +90,9 @@ namespace ConsoleToTextAuto
 
 
 
-            public static void LogHook(Action<GameManager, float> orig, GameManager man, float time)
+            public static void LogHook(Application.LogCallback back)
             {
-                orig(man, time);
+                //orig(man, time);
                 List<LoggedText> listOfText = _AllLoggedText;
                 foreach (LoggedText txt in listOfText)
                 {
