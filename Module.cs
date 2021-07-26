@@ -88,8 +88,6 @@ namespace ConsoleToTextAuto
         public class DebugPrinter : ETGModDebugLogMenu
         {
 
-
-
             public static void LogHook(Application.LogCallback back)
             {
                 //orig(man, time);
