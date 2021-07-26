@@ -13,7 +13,7 @@ namespace ConsoleToTextAuto
     public class CTTModule : ETGModule
     {
         public static readonly string MOD_NAME = "Console To Text Mod (Code By NotABot!)";
-        public static readonly string VERSION = "1.1.1 (Automatic Version)";
+        public static readonly string VERSION = "1.2 (Automatic Version)";
         public static readonly string TEXT_COLOR = "#8e1cff";
 
         public static string defaultLog = Path.Combine(ETGMod.ResourcesDirectory, "ConsoleToTextAuto.txt");
@@ -33,7 +33,7 @@ namespace ConsoleToTextAuto
                 File.Create(defaultLog);
             }
 
-            //ETGModConsole.Commands.AddUnit("print_debug_console", this.PrintDebugLog);
+            ETGModConsole.Commands.AddUnit("force_create_ctt_file", this.CreateNewLog);
             //ETGModConsole.Commands.AddUnit("nulls_only_print_debug_console", this.PrintDebugLogNullOnly);
 
             Application.logMessageReceived += Application_logMessageReceived;
@@ -44,33 +44,38 @@ namespace ConsoleToTextAuto
 
             Log($"{MOD_NAME} v{VERSION} started successfully..", TEXT_COLOR);
             Log($"Auto C.T.T file should be located in.{defaultLog}", TEXT_COLOR);
+            Log($"use command 'force_create_ctt_file' to forcefully generate one.", TEXT_COLOR);
 
         }
 
         //public static FileStream logfile = new FileStream(defaultLog, FileMode.Open, FileAccess.ReadWrite);
         private void Application_logMessageReceived(string condition, string stackTrace, LogType type)
         {
-            using (StreamWriter file2 = File.AppendText(defaultLog))
+            if (File.Exists(defaultLog))
             {
-                file2.WriteLine(condition);
-                if (type == LogType.Exception)
+                using (StreamWriter file2 = File.AppendText(defaultLog))
                 {
-                    file2.WriteLine("   " + stackTrace);
+                    file2.WriteLine(condition);
+                    if (type == LogType.Exception)
+                    {
+                        file2.WriteLine("   " + stackTrace);
+                    }
                 }
             }
+            
         }
 
-        public void PrintDebugLog(string[] args)
+        public void CreateNewLog(string[] args)
         {
             if (File.Exists(defaultLog))
             {
                 File.Delete(defaultLog);
-                Log($"Deleting Old C.T.T File from when previously used.", TEXT_COLOR);
+                //Log($"Deleting Old C.T.T File from when previously used.", TEXT_COLOR);
             }
             File.Create(defaultLog);
             Log($"Creating New C.T.T file.", TEXT_COLOR);
             Log($"C.T.T file should be located in.{defaultLog}", TEXT_COLOR);
-            DebugPrinter.ClearDebugLog();
+            //DebugPrinter.ClearDebugLog();
         }
         public void PrintDebugLogNullOnly(string[] args)
         {
